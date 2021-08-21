@@ -232,6 +232,9 @@ def logout():
     response = app.make_response(redirect(request.referrer))
     session.pop('user', None)
     return response
+@app.route('/newfunction')
+def newfunction():
+    return 'This is new function'
 
 # a helper function for asyncio.gather, does not return a value
 
