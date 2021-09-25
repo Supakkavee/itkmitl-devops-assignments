@@ -1,10 +1,10 @@
 #!/bin/sh
-docker build -t details ./details
-docker build -t productpage ./productpage
-docker build -t ratings ./ratings
-docker build -t reviews ./reviews
+docker build -t details bookinfo/details
+docker build -t productpage bookinfo/productpage
+docker build -t ratings bookinfo/ratings
+docker build -t reviews bookinfo/reviews
 
-cd details
+cd bookinfo/details
 docker run -d --name details -p 8081:9080 -e ENABLE_EXTERNAL_BOOK_SERVICE=true details
 cd ../ratings
 docker run -d --name mongodb -p 27017:27017 \
