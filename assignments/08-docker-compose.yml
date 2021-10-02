@@ -1,0 +1,38 @@
+services:
+  ratings:
+    build: ./bookinfo/ratings
+    image: ghcr.io/supakkavee/bookinfo-ratings:dev
+    ports:
+      - "8080:8080"
+    environment: 
+      SERVICE_VERSION: v2
+      MONGO_DB_URL: mongodb://mongodb:27017/ratings
+  mongodb:
+    image: bitnami/mongodb:5.0.2-debian-10-r2
+    volumes:
+      - ./bookinfo/ratings/databases:/docker-entrypoint-initdb.d
+    
+  reviews:
+    build: ./bookinfo/reviews
+    image: ghcr.io/supakkavee/bookinfo-reviews:dev
+    ports:
+      - "8082:9080"
+    environment:
+      ENABLE_EXTERNAL_BOOK_SERVICE: "true"
+      RATINGS_SERVICE: http://ratings:8080/
+  details:
+    build: ./bookinfo/details
+    image: ghcr.io/supakkavee/bookinfo-details:dev
+    ports:
+      - "8081:9080"
+    environment:
+      ENABLE_EXTERNAL_BOOK_SERVICE: "true"
+  productpage:
+    build: ./bookinfo/productpage
+    image: ghcr.io/supakkavee/bookinfo-productpage:dev
+    ports:
+      - "8083:9080"
+    environment:
+      DETAILS_HOSTNAME: http://details:9080/details
+      RATINGS_HOSTNAME: http://ratings:8080/
+      REVIEWS_HOSTNAME: http://reviews:9080/
