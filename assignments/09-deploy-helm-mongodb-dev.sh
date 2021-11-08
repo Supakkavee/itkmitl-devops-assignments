@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd ratings
+cd ~/ratings/
 
 kubectl create secret generic registry-bookinfo \
   --from-file=.dockerconfigjson=$HOME/.docker/config.json \
